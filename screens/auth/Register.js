@@ -1,13 +1,34 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import BoxInput from "../../Components/Forms/BoxInput";
 import SubmitButton from "../../Components/Forms/SubmitButton";
 
+// states
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mobileNo, setMobileNo] = useState("");
+  const [loading, setloading] = useState(true);
+
+  // btn function.
+
+  const HandleSubmit = () => {
+    try {
+      setloading(true);
+      if (!name || !email || !mobileNo || !password) {
+        return Alert.alert("Please Fill All The Fields");
+        setloading(false);
+      }
+
+      setloading(false);
+      console.log("Regester Data ==> ", { name, email, mobileNo, password });
+    } catch (error) {
+      setloading(false);
+      console.log(error);
+    }
+  };
+
   return (
     <View style={Styles.container}>
       <Text style={Styles.pageTitle}>Register</Text>
@@ -38,7 +59,11 @@ const Register = () => {
         {JSON.stringify({ name, email, mobileNo, password }, null, 4)}
       </Text> */}
 
-      <SubmitButton />
+      <SubmitButton
+        btnTitle={"Submit"}
+        loading={loading}
+        HandleSubmit={HandleSubmit}
+      />
     </View>
   );
 };

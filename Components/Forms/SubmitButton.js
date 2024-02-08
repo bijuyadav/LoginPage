@@ -1,17 +1,19 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 
-export default function SubmitButton() {
+export default function SubmitButton({ HandleSubmit, btnTitle, loading }) {
   return (
-    <TouchableOpacity style={stylesCss.SubmitBTN}>
-      <Text style={stylesCss.btnText}>Submit</Text>
+    <TouchableOpacity style={stylesCss.SubmitBTN} onPress={HandleSubmit}>
+      <Text style={stylesCss.btnText}>
+        {loading ? "Please Wait..." : btnTitle}
+      </Text>
     </TouchableOpacity>
   );
 }
 
 const stylesCss = StyleSheet.create({
   SubmitBTN: {
-    backgroundColor: "#d6c563",
+    backgroundColor: "black",
     height: 50,
     marginHorizontal: 50,
     borderRadius: 80,
@@ -19,7 +21,7 @@ const stylesCss = StyleSheet.create({
     marginBottom: 20,
   },
   btnText: {
-    color: "#253094",
+    color: "white",
     textAlign: "center",
     fontSize: 24,
     fontWeight: "400",
