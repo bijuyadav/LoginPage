@@ -4,7 +4,7 @@ import BoxInput from "../../Components/Forms/BoxInput";
 import SubmitButton from "../../Components/Forms/SubmitButton";
 
 // states
-const Register = () => {
+const Register = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,9 +16,25 @@ const Register = () => {
   const HandleSubmit = () => {
     try {
       setloading(true);
-      if (!name || !email || !mobileNo || !password) {
-        return Alert.alert("Please Fill All The Fields");
+      if (!name) {
+        Alert.alert("Please Fill Name");
         setloading(false);
+        return;
+      }
+      if (!email) {
+        Alert.alert("Please Fill Email-ID");
+        setloading(false);
+        return;
+      }
+      if (!mobileNo) {
+        Alert.alert("Please Fill Mobile No.");
+        setloading(false);
+        return;
+      }
+      if (!password) {
+        Alert.alert("Please Fill Password");
+        setloading(false);
+        return;
       }
 
       setloading(false);
@@ -64,6 +80,15 @@ const Register = () => {
         loading={loading}
         HandleSubmit={HandleSubmit}
       />
+      <Text style={Styles.alreadyLoginBtn}>
+        Already Regestered Please{"  "}
+        <Text
+          style={{ color: "white", fontWeight: "bold" }}
+          onPress={() => navigation.navigate("Login")}
+        >
+          Login
+        </Text>
+      </Text>
     </View>
   );
 };
@@ -72,7 +97,7 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#aa61d4",
+    backgroundColor: "#9ccbd9",
   },
   pageTitle: {
     fontSize: 50,
@@ -89,6 +114,10 @@ const Styles = StyleSheet.create({
     marginTop: 10,
     paddingLeft: 10,
     color: "green",
+  },
+  alreadyLoginBtn: {
+    fontSize: 15,
+    textAlign: "center",
   },
 });
 
