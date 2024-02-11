@@ -17,7 +17,7 @@ export default function Login({ navigation }) {
         return;
       }
       if (!password) {
-        Alert.alert("Please Fill Password");
+        Alert.alert("Please Fill ");
         setloading(false);
         return;
       }
