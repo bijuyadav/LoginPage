@@ -12,12 +12,12 @@ export default function Login({ navigation }) {
     try {
       setloading(true);
       if (!email) {
-        Alert.alert("Please Fill ");
+        Alert.alert("Please Fill Email");
         setloading(false);
         return;
       }
       if (!password) {
-        Alert.alert("Please Fill ");
+        Alert.alert("Please Fill Password");
         setloading(false);
         return;
       }
