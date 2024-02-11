@@ -12,7 +12,7 @@ export default function Login({ navigation }) {
     try {
       setloading(true);
       if (!email) {
-        Alert.alert("Please Fill Email id");
+        Alert.alert("Please Fill ");
         setloading(false);
         return;
       }
