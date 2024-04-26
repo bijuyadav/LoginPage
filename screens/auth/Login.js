@@ -1,41 +1,54 @@
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import { Alert, StyleSheet, Text, TextInput,ToastAndroid, View } from "react-native";
+import React, { useState,useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 import BoxInput from "../../Components/Forms/BoxInput";
 import SubmitButton from "../../Components/Forms/SubmitButton";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
+  
+  // global state
+  const [state,setState]= useContext(AuthContext);
+  
+  // states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setloading] = useState(true);
 
-  const HandleSubmit = () => {
+  const HandleSubmit = async() => {
     try {
-      setloading(true);
-      if (!email) {
-        Alert.alert("Please Fill Email");
-        setloading(false);
-        return;
-      }
-      if (!password) {
-        Alert.alert("Please Fill Password");
-        setloading(false);
-        return;
-      }
+      
+      // api
 
-      setloading(false);
-      console.log("Regester Data ==> ", { email, password });
+      const { data } = await axios.post("/auth/login",{email,password});
+      setState(data);
+      await AsyncStorage.setItem('@auth',JSON.stringify(data));
+      alert(data && data.message);
+
+      // ToastAndroid.show("Successfully Login", ToastAndroid.LONG);
+      navigation.navigate("Home");
+
+
+      console.log("Login Data ==> ", { email, password });
     } catch (error) {
-      setloading(false);
+      alert(error.response.data.message);
       console.log(error);
     }
   };
+
+  // temp fn.
+  const getLocalStorage = async ()=> {
+    let data = await AsyncStorage.getItem('@auth')
+    console.log('local Storage ==> ', data);
+  }
+  getLocalStorage();
 
   return (
     <View style={Styles.container}>
       <Text style={Styles.pageTitle}>Login</Text>
       <View style={{ marginHorizontal: 20 }}>
         <BoxInput
-          inputTitle={"Email id"}
+          inputTitle={"Email"}
           keyboardType="email-address"
           autoComplete="email"
           value={email}
@@ -56,7 +69,6 @@ export default function Login({ navigation }) {
 
       <SubmitButton
         btnTitle={"Login"}
-        loading={loading}
         HandleSubmit={HandleSubmit}
       />
       <Text style={Styles.alreadyLoginBtn}>

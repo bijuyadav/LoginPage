@@ -1,7 +1,8 @@
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput,ToastAndroid, View } from "react-native";
 import React, { useState } from "react";
 import BoxInput from "../../Components/Forms/BoxInput";
 import SubmitButton from "../../Components/Forms/SubmitButton";
+import axios from "axios";
 
 // states
 const Register = ({ navigation }) => {
@@ -9,38 +10,26 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mobileNo, setMobileNo] = useState("");
-  const [loading, setloading] = useState(true);
+
 
   // btn function.
 
-  const HandleSubmit = () => {
+  const HandleSubmit = async () => {
     try {
-      setloading(true);
-      if (!name) {
-        Alert.alert("Please Fill Name");
-        setloading(false);
-        return;
-      }
-      if (!email) {
-        Alert.alert("Please Fill Email-ID");
-        setloading(false);
-        return;
-      }
-      if (!mobileNo) {
-        Alert.alert("Please Fill Mobile No.");
-        setloading(false);
-        return;
-      }
-      if (!password) {
-        Alert.alert("Please Fill Password");
-        setloading(false);
-        return;
-      }
+            
 
-      setloading(false);
+      const {data} = await axios.post('/auth/register',
+      { name, email, mobileNo, password }
+      );
+      alert(data && data.message);
+
+      // ToastAndroid.show('Successfully account created', ToastAndroid.LONG)
+      navigation.navigate('Login');
+
+
       console.log("Regester Data ==> ", { name, email, mobileNo, password });
     } catch (error) {
-      setloading(false);
+      alert(error.response.data.message);
       console.log(error);
     }
   };
@@ -51,7 +40,7 @@ const Register = ({ navigation }) => {
       <View style={{ marginHorizontal: 20 }}>
         <BoxInput inputTitle={"Name"} value={name} setValue={setName} />
         <BoxInput
-          inputTitle={"Email-ID"}
+          inputTitle={"Email"}
           keyboardType="email-address"
           autoComplete="email"
           value={email}
@@ -77,7 +66,6 @@ const Register = ({ navigation }) => {
 
       <SubmitButton
         btnTitle={"Submit"}
-        loading={loading}
         HandleSubmit={HandleSubmit}
       />
       <Text style={Styles.alreadyLoginBtn}>
