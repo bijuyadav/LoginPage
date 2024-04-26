@@ -40,7 +40,7 @@ const Register = ({ navigation }) => {
       <View style={{ marginHorizontal: 20 }}>
         <BoxInput inputTitle={"Name"} value={name} setValue={setName} />
         <BoxInput
-          inputTitle={"Email"}
+          inputTitle={"Email-ID"}
           keyboardType="email-address"
           autoComplete="email"
           value={email}
